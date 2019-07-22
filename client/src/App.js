@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import { Route, Switch, Link, Redirect } from "react-router-dom";
+import "./App.css";
+import glam, { Div } from "glamorous";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+const Posts = () => <p>Posts</p>;
+
+const AppHeader = glam.header({
+  backgroundColor: "#282c34",
+  minHeight: 100,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "white"
+});
+class App extends Component {
+  render() {
+    return (
+      <Div css={{ textAlign: "center" }}>
+        <AppHeader className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <Link to="/">Home</Link>
+          <Link to="/posts">Posts</Link>
+        </AppHeader>
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          <Switch>
+            <Redirect exact path="/" to="/posts" />
+            <Route path="/posts" component={Posts} />
+          </Switch>
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      </Div>
+    );
+  }
 }
 
 export default App;
