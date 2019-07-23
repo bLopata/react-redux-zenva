@@ -1,36 +1,44 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import { Route, Switch, Link, Redirect } from "react-router-dom";
 import "./App.css";
 import glam, { Div } from "glamorous";
+import "antd/dist/antd.css";
+import { Layout } from "antd";
 
 const Posts = () => <p>Posts</p>;
+const Submit = () => <p>Submit</p>;
 
-const AppHeader = glam.header({
-  backgroundColor: "#282c34",
-  minHeight: 100,
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  color: "white"
-});
+const StyledLink = glam(Link)(
+  {
+    color: "White"
+  },
+  ({ color }) => ({ color })
+);
+
+const HeaderLink = ({ to, children }) => (
+  <Div css={{ padding: "0 10px" }}>
+    <StyledLink to={to}>{children}</StyledLink>
+  </Div>
+);
+
+const Header = glam(Layout.Header)({ display: "flex" });
+
 class App extends Component {
   render() {
     return (
-      <Div css={{ textAlign: "center" }}>
-        <AppHeader className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <Link to="/">Home</Link>
-          <Link to="/posts">Posts</Link>
-        </AppHeader>
-        <p>
+      <Layout>
+        <Header>
+          <HeaderLink to="/">Home</HeaderLink>
+          <HeaderLink to="/submit">Submit</HeaderLink>
+        </Header>
+        <Layout.Content>
           <Switch>
             <Redirect exact path="/" to="/posts" />
             <Route path="/posts" component={Posts} />
+            <Route path="/submit" component={Submit} />
           </Switch>
-        </p>
-      </Div>
+        </Layout.Content>
+      </Layout>
     );
   }
 }
